@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <title>MARS - Your AI Agent</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT-Style Chat</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="chat-container">
-    <div class="chat-header">
-        <h2> MARS - Your Personal Chatbot</h2>
-    </div>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <header class="sidebar-header">
+    <h1>MyGPT</h1>
+    <button id="newChat">+ New Chat</button>
+  </header>
+  <ul id="history"></ul>
+</aside>
 
-    <div class="chat-box" id="chatBox">
-     
-    </div>
-
-    <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-</div>
+<!-- Main chat area -->
+<main class="main">
+  <div id="chat" class="chat-box"></div>
+  
+  <!-- Separate input/search bar -->
+  <div class="input-container">
+    <textarea id="prompt" placeholder="Type a message…" rows="1"></textarea>
+    <button id="sendBtn">➤</button>
+  </div>
+</main>
 
 <script src="script.js"></script>
 </body>
