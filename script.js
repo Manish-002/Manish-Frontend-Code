@@ -1,7 +1,5 @@
-const chat = document.getElementById('chat');
-const history = document.getElementById('history');
-const promptBox = document.getElementById('prompt');
-const sendBtn = document.getElementById('sendBtn');
+const chat = document.getElementById('chatBox');   // updated
+const promptBox = document.getElementById('userInput');  // updated
 
 function addMessage(text, sender){
     const div = document.createElement('div');
@@ -26,14 +24,8 @@ async function sendMessage(){
     if(!text) return;
 
     addMessage(text, 'user');
-
-    const li = document.createElement('li');
-    li.textContent = text.slice(0,40);
-    history.appendChild(li);
-
     promptBox.value = '';
 
-    // Call backend
     try {
         const res = await fetch("http://127.0.0.1:8000/chat", {
             method: "POST",
@@ -42,16 +34,16 @@ async function sendMessage(){
         });
 
         const data = await res.json();
-        addMessage(data.response, 'bot');
+        addMessage(data.response, 'bot');  // show DeepSeek response
     } catch (err) {
         addMessage("⚠️ Error connecting to backend.", 'bot');
         console.error(err);
     }
 }
 
-sendBtn.addEventListener('click', sendMessage);
-promptBox.addEventListener('keypress', e=>{
-    if(e.key==='Enter' && !e.shiftKey){
+// Optional: allow Enter to send
+promptBox.addEventListener('keypress', e => {
+    if(e.key === 'Enter' && !e.shiftKey){
         e.preventDefault();
         sendMessage();
     }
