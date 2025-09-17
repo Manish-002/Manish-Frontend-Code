@@ -8,7 +8,6 @@ function addMessage(text, sender){
     div.className = 'msg ' + sender;
 
     if(sender === 'bot'){
-        // wrap bot answer in separate box
         const answerDiv = document.createElement('div');
         answerDiv.className = 'answer-box';
         answerDiv.textContent = text;
@@ -22,23 +21,32 @@ function addMessage(text, sender){
 }
 
 // Send message
-function sendMessage(){
+async function sendMessage(){
     const text = promptBox.value.trim();
     if(!text) return;
 
     addMessage(text, 'user');
 
-    // Add to history
     const li = document.createElement('li');
     li.textContent = text.slice(0,40);
     history.appendChild(li);
 
     promptBox.value = '';
 
-    // Mock bot response
-    setTimeout(() => {
-        addMessage("This is a sample bot answer in a separate box.", 'bot');
-    }, 700);
+    // Call backend
+    try {
+        const res = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({prompt: text})
+        });
+
+        const data = await res.json();
+        addMessage(data.response, 'bot');
+    } catch (err) {
+        addMessage("⚠️ Error connecting to backend.", 'bot');
+        console.error(err);
+    }
 }
 
 sendBtn.addEventListener('click', sendMessage);
